@@ -15,7 +15,7 @@ namespace WebAPIDemo.lib
         }
        public static bool ValidateBook(Book book)
         {
-            var type = book.ID > 0 && book.Price > 0 && ValidateString(book.Author) 
+            var type = book.Price > 0 && ValidateString(book.Author) 
                 && ValidateString(book.Name) && ValidateString(book.Category);
             return type;
         }

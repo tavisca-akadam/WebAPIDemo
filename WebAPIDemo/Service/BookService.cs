@@ -10,7 +10,7 @@ namespace WebAPIDemo.Service
 
         public void Delete(int id)
         {
-            if (id > 0)
+            if (id <= 0)
                 throw new InvalidIDException();
             BookStore.Delete(id);
         }
@@ -46,7 +46,10 @@ namespace WebAPIDemo.Service
 
         public void Put(int id, Book updateBook)
         {
-            throw new NotImplementedException();
+            if (Validation.ValidateBook(updateBook))
+                BookStore.Put(id, updateBook);
+            else
+                throw new InvalidParameterException();
         }
     }
 }

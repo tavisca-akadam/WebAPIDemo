@@ -15,19 +15,17 @@ namespace WebAPIDemo.Controllers
     public class BookController : Controller
     {
         private static List<Book> _bookList = new List<Book>();
-        BookService service = new BookService();
+        private IBookService _bookService;
 
-        //public BookController()
-        //{
-        //    _bookList.Add(new Book { ID = 1, Name = "Wings of Fire", ISBN = "2018:123", Author = "G. Sanap" });
-        //    _bookList.Add(new Book { ID = 2, Name = "ABC", ISBN = "2001:002", Author = "G. Sanap" });
-        //    _bookList.Add(new Book { ID = 3, Name = "PQR", ISBN = "2009:234", Author = "G. Sanap" });
-        //}
+        public BookController(IBookService bookService)
+        {
+            _bookService = bookService;
+        }
         // GET: api/values
         [HttpGet]
         public IEnumerable<Book> Get()
         {
-            return service.Get();
+            return _bookService.Get();
         }
 
         // GET api/values/5
@@ -38,7 +36,7 @@ namespace WebAPIDemo.Controllers
             Book book = null;
             try
             {
-                book = service.Get(id);
+                book = _bookService.Get(id);
             }
             catch(Exception ex)
             {
@@ -54,7 +52,7 @@ namespace WebAPIDemo.Controllers
         {
             try
             {
-                service.Post(value);
+                _bookService.Post(value);
             }
             catch(Exception ex)
             {
@@ -65,14 +63,32 @@ namespace WebAPIDemo.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]Book updateBook)
         {
+            try
+            {
+                _bookService.Put(id, updateBook);
+            }
+            catch(Exception ex)
+            {
+                return NotFound("Invalid Parameter");
+            }
+            return NoContent();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _bookService.Delete(id);
+            }
+            catch(Exception ex)
+            {
+                return NotFound("Something Went Wrong" + ex.ToString());
+            }
+            return Ok("Deleted");
         }
     }
 }
