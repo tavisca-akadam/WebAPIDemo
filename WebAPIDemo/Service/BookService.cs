@@ -38,16 +38,22 @@ namespace WebAPIDemo.Service
                 throw new InvalidIDException();
             if (book.Price <= 0)
                 throw new InvalidBookPriceException();
-            if (Validation.ValidateBook(book))
+            if (!Validation.ValidateBook(book))
                 BookStore.Post(book);
             else
-                throw new InvalidBookException();
+                throw new InvalidParameterException();
         }
 
         public void Put(int id, Book updateBook)
         {
-            if (Validation.ValidateBook(updateBook))
+
+            updateBook.ID = id;
+            if (id == null || id <= 0)
+                throw new InvalidIDException();
+            if (!Validation.ValidateBook(updateBook))
+            {
                 BookStore.Put(id, updateBook);
+            }  
             else
                 throw new InvalidParameterException();
         }

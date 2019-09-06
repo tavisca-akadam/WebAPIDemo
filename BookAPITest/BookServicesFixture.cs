@@ -105,7 +105,7 @@ namespace BookAPITest
         {
             var bookStore = _bookService.GetBookStore();
 
-            Assert.Throws<InvalidBookException>(() => _bookService.Post(new Book
+            Assert.Throws<InvalidParameterException>(() => _bookService.Post(new Book
             {
                 ID = 2,
                 Name = "PQRs123",
@@ -134,7 +134,7 @@ namespace BookAPITest
         {
             var bookStore = _bookService.GetBookStore();
 
-            Assert.Throws<InvalidBookException>(() => _bookService.Post(new Book
+            Assert.Throws<InvalidParameterException>(() => _bookService.Post(new Book
             {
                 ID = 2,
                 Name = "PQRs",
@@ -149,7 +149,7 @@ namespace BookAPITest
         {
             var bookStore = _bookService.GetBookStore();
 
-            Assert.Throws<InvalidBookException>(() => _bookService.Post(new Book
+            Assert.Throws<InvalidParameterException>(() => _bookService.Post(new Book
             {
                 ID = 2,
                 Name = "PQRs",
@@ -198,6 +198,28 @@ namespace BookAPITest
             });
 
             Assert.Throws<InvalidParameterException>(() => _bookService.Put(2, new Book
+            {
+                Name = "PQRS@!#",
+                Price = 200,
+                Author = "GSANAP",
+                Category = "AAA"
+            }));
+        }
+
+        [Fact]
+        public void Update_book_using_put_with_invalid_id()
+        {
+            var bookStore = _bookService.GetBookStore();
+            _bookService.Post(new Book
+            {
+                ID = 2,
+                Name = "PQRs",
+                Price = 200,
+                Author = "GSanap",
+                Category = "AAA"
+            });
+
+            Assert.Throws<InvalidIDException>(() => _bookService.Put(0, new Book
             {
                 Name = "PQRS@!#",
                 Price = 200,

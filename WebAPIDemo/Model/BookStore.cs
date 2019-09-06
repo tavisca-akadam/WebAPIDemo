@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPIDemo.lib;
 
 namespace WebAPIDemo.Model
 {
@@ -40,10 +41,11 @@ namespace WebAPIDemo.Model
             var book = Books.Find(b => b.ID == id);
             if (book == null)
                 throw new BookNotFoundException();
-            book.Name = updateBook.Name;
-            book.Price = updateBook.Price;
-            book.Author = updateBook.Author;
-            book.Category = updateBook.Category;
+            //book.Name = updateBook.Name;
+            //book.Price = updateBook.Price;
+            //book.Author = updateBook.Author;
+            //book.Category = updateBook.Category;
+            book.CopyPropertiesFrom(updateBook);
         }
 
         public static void Delete(int id)

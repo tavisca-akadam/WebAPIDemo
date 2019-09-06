@@ -9,15 +9,13 @@ namespace WebAPIDemo.lib
 {
     public class Validation
     {
-        private static bool ValidateString(string input)
+        public static bool ValidateString(string input)
         {
             return input.All(Char.IsLetter);
         }
        public static bool ValidateBook(Book book)
         {
-            var type = book.Price > 0 && ValidateString(book.Author) 
-                && ValidateString(book.Name) && ValidateString(book.Category);
-            return type;
+            return new ErrorHandler().BookValidation(book).Count > 0;
         }
 
     }
