@@ -38,7 +38,7 @@ namespace WebAPIDemo.Service
                 throw new InvalidIDException();
             if (book.Price <= 0)
                 throw new InvalidBookPriceException();
-            if (!Validation.ValidateBook(book))
+            if (!Validation.IsInvalidBook(book))
                 BookStore.Post(book);
             else
                 throw new InvalidParameterException();
@@ -50,7 +50,7 @@ namespace WebAPIDemo.Service
             updateBook.ID = id;
             if (id == null || id <= 0)
                 throw new InvalidIDException();
-            if (!Validation.ValidateBook(updateBook))
+            if (!Validation.IsInvalidBook(updateBook))
             {
                 BookStore.Put(id, updateBook);
             }  

@@ -13,7 +13,7 @@ namespace WebAPIDemo.lib
         {
             return input.All(Char.IsLetter);
         }
-       public static bool ValidateBook(Book book)
+       public static bool IsInvalidBook(Book book)
         {
             return new ErrorHandler().BookValidation(book).Count > 0;
         }
