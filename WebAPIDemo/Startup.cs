@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebAPIDemo.Service;
+using NLog.Extensions.Logging;
+using NLog.Web;
+using Microsoft.AspNetCore.Http;
+using WebAPIDemo.Middleware;
 
 namespace WebAPIDemo
 {
@@ -28,10 +32,11 @@ namespace WebAPIDemo
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddTransient<IBookService, BookService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -42,7 +47,10 @@ namespace WebAPIDemo
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            loggerFactory.AddNLog();
+            app.AddNLogWeb();
 
+            app.UseMiddleware<Logger>();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

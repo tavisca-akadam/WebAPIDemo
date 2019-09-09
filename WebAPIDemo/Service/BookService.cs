@@ -8,6 +8,11 @@ namespace WebAPIDemo.Service
     public class BookService : IBookService
     {
 
+        public BookService()
+        {
+            
+        }
+
         public void Delete(int id)
         {
             if (id <= 0)
